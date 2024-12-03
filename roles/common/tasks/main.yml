@@ -1,0 +1,33 @@
+---
+- name: Update apt cache
+  apt:
+    update_cache: yes
+  when: ansible_os_family == "Debian"
+
+- name: Install required packages
+  package:
+    name:
+      - curl
+      - unzip
+      - jq
+    state: present
+
+- name: Create NATS user
+  user:
+    name: "{{ nats_user }}"
+    system: yes
+    create_home: no
+    shell: /sbin/nologin
+
+- name: Create NATS directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ nats_user }}"
+    group: "{{ nats_group }}"
+    mode: 0750
+  with_items:
+    - "{{ nats_config_dir }}"
+    - "{{ nats_data_dir }}"
+    - "{{ nats_log_dir }}"
+    - "{{ nats_config_dir }}/certs"

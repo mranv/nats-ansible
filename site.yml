@@ -1,0 +1,8 @@
+---
+- name: Deploy NATS Cluster
+  hosts: nats_cluster
+  become: yes
+  
+  roles:
+    - common
+    - nats

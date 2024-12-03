@@ -1,0 +1,20 @@
+---
+all:
+  children:
+    nats_cluster:
+      hosts:
+        nats1:
+          ansible_host: <IP_ADDRESS_1>
+          nats_route_port: 6222
+          nats_client_port: 4222
+          nats_monitor_port: 8222
+        nats2:
+          ansible_host: <IP_ADDRESS_2>
+          nats_route_port: 6222
+          nats_client_port: 4222
+          nats_monitor_port: 8222
+        nats3:
+          ansible_host: <IP_ADDRESS_3>
+          nats_route_port: 6222
+          nats_client_port: 4222
+          nats_monitor_port: 8222

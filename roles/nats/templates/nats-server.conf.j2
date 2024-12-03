@@ -1,0 +1,46 @@
+---
+server_name: {{ inventory_hostname }}
+host: {{ ansible_host }}
+port: {{ nats_client_port }}
+
+{% if nats_tls_enabled %}
+tls {
+  cert_file: "{{ nats_tls_cert_file }}"
+  key_file: "{{ nats_tls_key_file }}"
+  ca_file: "{{ nats_tls_ca_file }}"
+  verify: true
+}
+{% endif %}
+
+{% if nats_auth_enabled %}
+authorization {
+  token: "{{ nats_auth_token }}"
+}
+{% endif %}
+
+cluster {
+  name: {{ nats_cluster_name }}
+  listen: {{ ansible_host }}:{{ nats_route_port }}
+  routes: [
+{% for host in groups['nats_cluster'] %}
+{% if host != inventory_hostname %}
+    "nats-route://{{ hostvars[host]['ansible_host'] }}:{{ hostvars[host]['nats_route_port'] }}"{% if not loop.last %},{% endif %}
+{% endif %}
+{% endfor %}
+  ]
+}
+
+jetstream {
+  store_dir: {{ nats_data_dir }}
+  max_memory_store: 1G
+  max_file_store: 10G
+}
+
+{% if nats_monitoring_enabled %}
+http_port: {{ nats_monitor_port }}
+{% endif %}
+
+debug: false
+trace: false
+logtime: true
+log_file: "{{ nats_log_dir }}/nats-server.log"
