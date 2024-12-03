@@ -23,3 +23,8 @@ nats_cluster_routes: []  # Will be populated dynamically
 # Monitoring configuration
 nats_monitoring_enabled: true
 nats_monitoring_port: 8222
+
+# group_vars/all.yml
+custom_ca_cert: "my-custom-ca.pem"
+custom_server_cert: "my-server.pem"
+custom_server_key: "my-key.pem"

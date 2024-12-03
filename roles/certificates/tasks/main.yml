@@ -1,0 +1,53 @@
+---
+- name: Ensure certificates directory exists
+  file:
+    path: "{{ nats_certs_dir }}"
+    state: directory
+    mode: "{{ cert_dir_mode }}"
+    owner: "{{ nats_user }}"
+    group: "{{ nats_group }}"
+
+- name: Check if custom certificates exist locally
+  delegate_to: localhost
+  stat:
+    path: "{{ local_certs_path }}/{{ item }}"
+  register: cert_stat
+  with_items:
+    - "{{ custom_ca_cert }}"
+    - "{{ custom_server_cert }}"
+    - "{{ custom_server_key }}"
+  run_once: true
+
+- name: Verify all required certificates are present
+  fail:
+    msg: "Missing required certificate: {{ item.item }}"
+  when: not item.stat.exists
+  with_items: "{{ cert_stat.results }}"
+  run_once: true
+
+- name: Copy CA certificate
+  copy:
+    src: "{{ local_certs_path }}/{{ custom_ca_cert }}"
+    dest: "{{ nats_ca_file }}"
+    owner: "{{ nats_user }}"
+    group: "{{ nats_group }}"
+    mode: "{{ cert_file_mode }}"
+  notify: restart nats
+
+- name: Copy server certificate
+  copy:
+    src: "{{ local_certs_path }}/{{ custom_server_cert }}"
+    dest: "{{ nats_cert_file }}"
+    owner: "{{ nats_user }}"
+    group: "{{ nats_group }}"
+    mode: "{{ cert_file_mode }}"
+  notify: restart nats
+
+- name: Copy server key
+  copy:
+    src: "{{ local_certs_path }}/{{ custom_server_key }}"
+    dest: "{{ nats_key_file }}"
+    owner: "{{ nats_user }}"
+    group: "{{ nats_group }}"
+    mode: "{{ key_file_mode }}"
+  notify: restart nats

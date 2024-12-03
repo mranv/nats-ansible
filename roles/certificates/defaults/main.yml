@@ -1,0 +1,19 @@
+---
+# Certificate paths on local machine
+local_certs_path: "{{ playbook_dir }}/certs"  # Directory containing your custom certificates
+
+# Certificate filenames
+custom_ca_cert: "ca.pem"
+custom_server_cert: "server-cert.pem"
+custom_server_key: "server-key.pem"
+
+# Remote paths (should match NATS configuration)
+nats_certs_dir: /etc/nats/certs
+nats_ca_file: "{{ nats_certs_dir }}/ca.pem"
+nats_cert_file: "{{ nats_certs_dir }}/server-cert.pem"
+nats_key_file: "{{ nats_certs_dir }}/server-key.pem"
+
+# Certificate permissions
+cert_file_mode: "0644"
+key_file_mode: "0600"
+cert_dir_mode: "0755"
