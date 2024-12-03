@@ -1,1 +1,5 @@
 inventory/hosts.yml
+certs/ca-key.pem
+certs/ca.pem
+certs/server-cert.pem
+certs/server-key.pem
