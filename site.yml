@@ -2,16 +2,13 @@
 - name: Deploy NATS Cluster
   hosts: nats_cluster
   become: yes
-  vars_files:
-    - group_vars/all/main.yml
-    - group_vars/all/vault.yml
 
   pre_tasks:
-    - name: Debug vault variables
+    - name: Debug variables
       debug:
         msg: 
-          - "Checking vault_nats_auth_token: {{ vault_nats_auth_token | default('UNDEFINED') }}"
-          - "Checking nats_auth_token: {{ nats_auth_token | default('UNDEFINED') }}"
+          - "nats_auth_token: Anubhav@321"
+          - "Configuration will use hardcoded token"
 
     - name: Install Python and dependencies
       raw: |

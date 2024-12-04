@@ -1,4 +1,3 @@
-# roles/nats/templates/nats-server.conf.j2
 ---
 server_name: {{ inventory_hostname }}
 host: {{ ansible_host }}
@@ -15,21 +14,13 @@ tls {
 
 {% if nats_auth_enabled %}
 authorization {
-  token: "{{ nats_auth_token }}"  # Using the hardcoded token from main.yml
+  token: "Anubhav@321"  # Hardcoded token
 }
 {% endif %}
 
 cluster {
   name: {{ nats_cluster_name }}
   listen: {{ ansible_host }}:{{ nats_route_port }}
-  {% if nats_tls_enabled %}
-  tls {
-    cert_file: "{{ nats_tls_cert_file }}"
-    key_file: "{{ nats_tls_key_file }}"
-    ca_file: "{{ nats_tls_ca_file }}"
-    verify: true
-  }
-  {% endif %}
   routes: [
 {% for host in groups['nats_cluster'] %}
 {% if host != inventory_hostname %}
