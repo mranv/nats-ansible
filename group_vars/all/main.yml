@@ -15,7 +15,7 @@ nats_tls_ca_file: /etc/nats/certs/ca.pem
 
 # Authentication
 nats_auth_enabled: true
-nats_auth_token: "{{ vault_nats_auth_token }}"  # Reference to vault variable
+nats_auth_token: "Anubhav@321"  # Hardcoded value instead of vault reference
 
 # Cluster configuration
 nats_cluster_name: "prod-cluster"
