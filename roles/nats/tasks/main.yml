@@ -1,10 +1,9 @@
 ---
 - name: Debug variables
   debug:
-    msg: 
-      - "vault_nats_auth_token defined: {{ vault_nats_auth_token is defined }}"
+    msg:
       - "nats_auth_token defined: {{ nats_auth_token is defined }}"
-      - "auth token: {{ vault_nats_auth_token | default('UNDEFINED') }}"
+      - "nats_auth_token: {{ nats_auth_token | default('NOT_SET') }}"
 
 - name: Download NATS Server
   get_url:
@@ -47,4 +46,3 @@
     state: started
     enabled: yes
     daemon_reload: yes
-

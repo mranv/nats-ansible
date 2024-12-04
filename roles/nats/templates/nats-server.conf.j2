@@ -15,7 +15,7 @@ tls {
 
 {% if nats_auth_enabled %}
 authorization {
-  token: "{{ nats_auth_token }}"
+  token: "{{ nats_auth_token }}"  # Using the hardcoded token from main.yml
 }
 {% endif %}
 

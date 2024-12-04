@@ -1,0 +1,4 @@
+---
+# Default token if not specified elsewhere
+nats_auth_token: "Anubhav@321"
+nats_auth_enabled: true
