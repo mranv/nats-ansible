@@ -1,3 +1,4 @@
+# roles/common/tasks/main.yml
 ---
 - name: Update apt cache
   apt:
@@ -12,12 +13,20 @@
       - jq
     state: present
 
+- name: Create NATS group
+  group:
+    name: "{{ nats_group }}"
+    state: present
+    system: yes
+
 - name: Create NATS user
   user:
     name: "{{ nats_user }}"
+    group: "{{ nats_group }}"
     system: yes
     create_home: no
     shell: /sbin/nologin
+    state: present
 
 - name: Create NATS directories
   file:
@@ -30,4 +39,3 @@
     - "{{ nats_config_dir }}"
     - "{{ nats_data_dir }}"
     - "{{ nats_log_dir }}"
-    - "{{ nats_config_dir }}/certs"

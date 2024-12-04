@@ -77,6 +77,11 @@ Key configurations in `group_vars/all.yml`:
    ```bash
    ansible-playbook -i inventory/hosts.yml site.yml --ask-vault-pass --tags update
    ```
+2. Run playbook:
+   ```bash
+   ansible-playbook -i inventory/hosts.yml site.yml --ask-vault-pass --ask-become-pass -vv
+   ```
+
 
 ### Logs
 
