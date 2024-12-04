@@ -1,4 +1,11 @@
 ---
+- name: Debug variables
+  debug:
+    msg: 
+      - "vault_nats_auth_token defined: {{ vault_nats_auth_token is defined }}"
+      - "nats_auth_token defined: {{ nats_auth_token is defined }}"
+      - "auth token: {{ vault_nats_auth_token | default('UNDEFINED') }}"
+
 - name: Download NATS Server
   get_url:
     url: "https://github.com/nats-io/nats-server/releases/download/v{{ nats_version }}/nats-server-v{{ nats_version }}-linux-amd64.zip"

@@ -1,0 +1,1 @@
+nats_auth_token: "{{ vault_nats_auth_token }}"

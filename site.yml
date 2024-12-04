@@ -22,6 +22,14 @@
     - name: Gather facts
       setup:
 
+    - name: Debug vault variables
+      debug:
+        msg: "NATS auth token is defined: {{ vault_nats_auth_token is defined }}"
+
+    - name: Debug all variables
+      debug:
+        var: hostvars[inventory_hostname]
+
   roles:
     - common
     - certificates

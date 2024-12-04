@@ -1,3 +1,4 @@
+# roles/nats/templates/nats-server.conf.j2
 ---
 server_name: {{ inventory_hostname }}
 host: {{ ansible_host }}
@@ -21,10 +22,19 @@ authorization {
 cluster {
   name: {{ nats_cluster_name }}
   listen: {{ ansible_host }}:{{ nats_route_port }}
+  {% if nats_tls_enabled %}
+  tls {
+    cert_file: "{{ nats_tls_cert_file }}"
+    key_file: "{{ nats_tls_key_file }}"
+    ca_file: "{{ nats_tls_ca_file }}"
+    verify: true
+  }
+  {% endif %}
   routes: [
 {% for host in groups['nats_cluster'] %}
 {% if host != inventory_hostname %}
     "nats-route://{{ hostvars[host]['ansible_host'] }}:{{ hostvars[host]['nats_route_port'] }}"{% if not loop.last %},{% endif %}
+
 {% endif %}
 {% endfor %}
   ]
