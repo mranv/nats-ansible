@@ -2,9 +2,17 @@
 - name: Deploy NATS Cluster
   hosts: nats_cluster
   become: yes
-  gather_facts: no
+  vars_files:
+    - group_vars/all/main.yml
+    - group_vars/all/vault.yml
 
   pre_tasks:
+    - name: Debug vault variables
+      debug:
+        msg: 
+          - "Checking vault_nats_auth_token: {{ vault_nats_auth_token | default('UNDEFINED') }}"
+          - "Checking nats_auth_token: {{ nats_auth_token | default('UNDEFINED') }}"
+
     - name: Install Python and dependencies
       raw: |
         if command -v apt-get >/dev/null 2>&1; then
@@ -21,14 +29,6 @@
 
     - name: Gather facts
       setup:
-
-    - name: Debug vault variables
-      debug:
-        msg: "NATS auth token is defined: {{ vault_nats_auth_token is defined }}"
-
-    - name: Debug all variables
-      debug:
-        var: hostvars[inventory_hostname]
 
   roles:
     - common
